@@ -5,6 +5,11 @@
 
 > Login form using Reactjs
 
+### Technologies used
+
+- Reactjs
+- Tailwindcss
+
 ### 🏠 [Homepage](https://github.com/sagsag24/front-end-assignment)
 
 ### ✨ [Demo](https://github.com/sagsag24/front-end-assignment)
@@ -12,7 +17,19 @@
 ## Install
 
 ```sh
-yarn install
+npx yarn install
+```
+
+## Development
+
+```sh
+npx yarn dev
+```
+
+## Production
+
+```sh
+npx yarn build
 ```
 
 ## Author
