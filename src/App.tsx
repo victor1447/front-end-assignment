@@ -1,13 +1,7 @@
-import './App.css';
-import LoginForm from './components/Form/LoginForm';
-import { LoginProvider } from './context/LoginContext';
+import "./App.css";
 
 function App() {
-	return (
-		<LoginProvider>
-			<LoginForm />
-		</LoginProvider>
-	);
+  return <div>App</div>;
 }
 
 export default App;
