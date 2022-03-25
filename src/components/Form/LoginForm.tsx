@@ -2,11 +2,15 @@ import {
 	ChangeEvent,
 	FC,
 	FormEvent,
+	Fragment,
 	useContext,
 	useEffect,
 	useState,
 } from 'react';
+import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import { authLogin } from '../../services/auth.service';
 import FormHelperText from '@mui/material/FormHelperText';
@@ -17,7 +21,7 @@ const LoginForm: FC = () => {
 	const [password, setPassword] = useState('');
 	const [error, setError] = useState('');
 	const [countError, setCountError] = useState(0);
-	const { login } = useContext(LoginContext);
+	const { setLogin } = useContext(LoginContext);
 	const waitTimes = 30000;
 
 	const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -33,7 +37,7 @@ const LoginForm: FC = () => {
 		try {
 			const response = await authLogin({ username, password });
 			console.log(response);
-			login(true);
+			setLogin(true);
 		} catch (error) {
 			setCountError(countError + 1);
 			console.log(error);
@@ -51,37 +55,45 @@ const LoginForm: FC = () => {
 	}, [countError, setCountError]);
 
 	return (
-		<div className="flex-col flex ml-auto mr-auto items-center w-full lg:w-2/3 md:w-3/5">
-			<div className="flex-col flex ml-auto mr-auto items-center w-full lg:w-2/3 md:w-3/5">
-				<h1 className="font-bold text-2xl mt-10 mb-5 text-black">
+		<Fragment>
+			<Container maxWidth="sm">
+				<Typography
+					sx={{
+						mb: 3,
+						fontSize: '2rem',
+					}}
+					align="center"
+					component="h1"
+				>
 					{' '}
 					Login{' '}
-				</h1>
-				<form
-					action=""
-					className="mt-2 flex flex-col lg:w-1/2 w-8/12"
-					onSubmit={handleSubmit}
-				>
-					<div className="mb-3">
+				</Typography>
+				<Box component="form" onSubmit={handleSubmit}>
+					<Box mb={2}>
 						<TextField
 							className="w-full"
 							label="User name"
 							variant="outlined"
 							onChange={handleUsernameChange}
 						/>
-					</div>
-					<div className="mb-3">
+					</Box>
+					<Box mb={2}>
 						<TextField
 							className="w-full"
 							label="Password"
 							variant="outlined"
 							onChange={handlePasswordChange}
 						/>
-					</div>
-					<div className="mb-3">
+					</Box>
+					<Box mb={2}>
 						{countError === 1 && (
 							<FormHelperText>
 								Invalid username or password. Please try again!
+							</FormHelperText>
+						)}
+						{countError === 2 && (
+							<FormHelperText>
+								Something wrong. Please try again!
 							</FormHelperText>
 						)}
 						{countError === 3 && (
@@ -89,7 +101,7 @@ const LoginForm: FC = () => {
 								Please wait next 30 sec
 							</FormHelperText>
 						)}
-					</div>
+					</Box>
 					<Button
 						type="submit"
 						variant="contained"
@@ -97,9 +109,9 @@ const LoginForm: FC = () => {
 					>
 						Login
 					</Button>
-				</form>
-			</div>
-		</div>
+				</Box>
+			</Container>
+		</Fragment>
 	);
 };
 

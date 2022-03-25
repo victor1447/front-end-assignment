@@ -2,12 +2,12 @@ import { createContext, ReactNode, useState } from 'react';
 
 type LoginContextType = {
 	loginSuccess: boolean;
-	login: (loginSuccess: boolean) => void;
+	setLogin: (loginSuccess: boolean) => void;
 };
 
 const defaultState = {
 	loginSuccess: false,
-	login: () => {},
+	setLogin: () => {},
 };
 
 const LoginContext = createContext<LoginContextType>(defaultState);
@@ -15,12 +15,12 @@ const LoginContext = createContext<LoginContextType>(defaultState);
 const LoginProvider = ({ children }: { children: ReactNode }) => {
 	const [loginSuccess, setLoginSuccess] = useState(false);
 
-	const login = (loginSuccess: boolean) => {
+	const setLogin = (loginSuccess: boolean) => {
 		setLoginSuccess(loginSuccess);
 	}
 
 	return (
-		<LoginContext.Provider value={{ loginSuccess, login }}>
+		<LoginContext.Provider value={{ loginSuccess, setLogin }}>
 			{children}
 		</LoginContext.Provider>
 	);
