@@ -19,7 +19,6 @@ import { LoginContext } from '../../context/LoginContext';
 const LoginForm: FC = () => {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
-	const [error, setError] = useState('');
 	const [countError, setCountError] = useState(0);
 	const { setLogin } = useContext(LoginContext);
 	const waitTimes = 30000;
@@ -36,8 +35,9 @@ const LoginForm: FC = () => {
 		e.preventDefault();
 		try {
 			const response = await authLogin({ username, password });
-			console.log(response);
+			setCountError(0);
 			setLogin(true);
+			localStorage.setItem('logged', 'true');
 		} catch (error) {
 			setCountError(countError + 1);
 			console.log(error);
