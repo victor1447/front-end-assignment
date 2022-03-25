@@ -9,6 +9,9 @@ body {
 		'Helvetica Neue', sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	background-color: #282c34;
+	font-size: 16px;
+	font-weight: 400;
 }
 
 code {
