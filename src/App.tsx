@@ -1,10 +1,13 @@
 import './App.css';
 import LoginForm from './components/Form/LoginForm';
+import { LoginProvider } from './context/LoginContext';
 
 function App() {
-	return <div className="App">
-		<LoginForm />
-	</div>;
+	return (
+		<LoginProvider>
+			<LoginForm />
+		</LoginProvider>
+	);
 }
 
 export default App;
