@@ -1,11 +1,16 @@
-import { ChangeEvent, FC, FormEvent, useState } from 'react';
+import { ChangeEvent, FC, FormEvent, useContext, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { authLogin } from '../../services/auth.service';
+import FormHelperText from '@mui/material/FormHelperText';
+import { LoginContext } from '../../context/LoginContext';
 
 const LoginForm: FC = () => {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
+	const [error, setError] = useState('');
+	const [countError, setCountError] = useState(0);
+	const { login } = useContext(LoginContext);
 
 	const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setUsername(event.currentTarget.value);
@@ -17,9 +22,14 @@ const LoginForm: FC = () => {
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		const response = await authLogin({ username, password });
-		console.log(response);
-		
+		try {
+			const response = await authLogin({ username, password });
+			console.log(response);
+			login(true);
+		} catch (error) {
+			setCountError(countError + 1);
+			console.log(error);
+		}
 	};
 
 	return (
@@ -50,6 +60,7 @@ const LoginForm: FC = () => {
 							onChange={handlePasswordChange}
 						/>
 					</div>
+					{countError ===3 && <FormHelperText>Please wait next 30 sec</FormHelperText>}
 					<Button
 						type="submit"
 						variant="contained"
