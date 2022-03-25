@@ -7,7 +7,7 @@ type LoginContextType = {
 
 const defaultState = {
 	loginSuccess: false,
-	setLogin: (loginSuccess: boolean) => {}
+	setLogin: () => {}
 };
 
 const LoginContext = createContext<LoginContextType>(defaultState);
