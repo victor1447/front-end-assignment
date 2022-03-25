@@ -1,4 +1,11 @@
-import { ChangeEvent, FC, FormEvent, useContext, useState } from 'react';
+import {
+	ChangeEvent,
+	FC,
+	FormEvent,
+	useContext,
+	useEffect,
+	useState,
+} from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { authLogin } from '../../services/auth.service';
@@ -11,6 +18,7 @@ const LoginForm: FC = () => {
 	const [error, setError] = useState('');
 	const [countError, setCountError] = useState(0);
 	const { login } = useContext(LoginContext);
+	const waitTimes = 30000;
 
 	const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setUsername(event.currentTarget.value);
@@ -31,6 +39,16 @@ const LoginForm: FC = () => {
 			console.log(error);
 		}
 	};
+
+	useEffect(() => {
+		let timer: ReturnType<typeof setTimeout>;
+		if (countError === 3) {
+			timer = setTimeout(() => {
+				setCountError(0);
+			}, waitTimes);
+		}
+		return () => clearTimeout(timer);
+	}, [countError, setCountError]);
 
 	return (
 		<div className="flex-col flex ml-auto mr-auto items-center w-full lg:w-2/3 md:w-3/5">
@@ -60,11 +78,22 @@ const LoginForm: FC = () => {
 							onChange={handlePasswordChange}
 						/>
 					</div>
-					{countError ===3 && <FormHelperText>Please wait next 30 sec</FormHelperText>}
+					<div className="mb-3">
+						{countError === 1 && (
+							<FormHelperText>
+								Invalid username or password. Please try again!
+							</FormHelperText>
+						)}
+						{countError === 3 && (
+							<FormHelperText>
+								Please wait next 30 sec
+							</FormHelperText>
+						)}
+					</div>
 					<Button
 						type="submit"
 						variant="contained"
-						disabled={!username || !password}
+						disabled={!username || !password || countError === 3}
 					>
 						Login
 					</Button>
